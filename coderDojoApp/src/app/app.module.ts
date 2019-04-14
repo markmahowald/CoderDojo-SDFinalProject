@@ -16,6 +16,7 @@ import { AllGoalsComponent } from './components/all-goals/all-goals.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { AdminDasboardComponent } from './components/admin-dasboard/admin-dasboard.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,8 @@ import { AdminDasboardComponent } from './components/admin-dasboard/admin-dasboa
     AllGoalsComponent,
     NavbarComponent,
     AdminDasboardComponent,
+    AllAchievementsComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

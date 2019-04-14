@@ -11,11 +11,20 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  username = this.auth.getLoggedInUsername();
   registering = false;
-  buttonText = 'Login';
+  buttonText = this.loggedIn() ? this.username : 'Login';
   newUser = null;
-  loggedIn = this.auth.checkLogin();
   routerPath = '';
+
+  loggedIn() {
+    if (this.auth.checkLogin()) {
+      this.username = this.auth.getLoggedInUsername();
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   login(form: NgForm) {
     const user = form.value.username;
@@ -23,9 +32,9 @@ export class LoginComponent implements OnInit {
 
     this.auth.login(user, pw).subscribe(
       next => {
-        this.loggedIn = true;
-        this.buttonText = next.name;
-        this.routerPath = `/user/${next.name}`;
+        this.loggedIn();
+        this.buttonText = this.username;
+        this.routerPath = `/user/${next.name}/profile`;
         document.getElementById('loginDropdown').classList.remove('show');
         console.log('LoginComponent.login(): user logged in, routing to default page by role/authority.');
         const auth = [];
@@ -37,7 +46,7 @@ export class LoginComponent implements OnInit {
         if (auth.indexOf('ADMIN') > -1 ) {
           this.router.navigateByUrl('admin');
         } else {
-          this.router.navigateByUrl(`user/${next.name}`);
+          this.router.navigateByUrl(`user/${next.name}/profile`);
         }
       },
       error => {
@@ -54,9 +63,9 @@ export class LoginComponent implements OnInit {
     );
     this.auth.register(user).subscribe(
       data => {
-        this.loggedIn = true;
-        this.buttonText = data.name;
-        this.routerPath = `/user/${data.name}`;
+        this.loggedIn();
+        this.buttonText = this.username;
+        this.routerPath = `/user/${this.username}/profile`;
         document.getElementById('loginDropdown').classList.remove('show');
         this.newUser = data;
         this.newUser.email = form.value.email;
@@ -64,7 +73,7 @@ export class LoginComponent implements OnInit {
         this.userService.updateUserDetail(this.newUser).subscribe(
           userDetailData => {
             this.registering = false;
-            this.router.navigateByUrl(`/user/${user.username}`);
+            this.router.navigateByUrl(`/user/${user.username}/profile`);
           },
           err => {
             console.log(err);
@@ -85,7 +94,7 @@ export class LoginComponent implements OnInit {
     this.registering = false;
     this.newUser = null;
     this.routerPath = null;
-    this.loggedIn = false;
+    this.loggedIn();
     document.getElementById('profileDropdown').classList.remove('show');
     this.router.navigateByUrl('/home');
   }
@@ -93,5 +102,6 @@ export class LoginComponent implements OnInit {
   constructor(private auth: AuthService, private userService: UserService, private router: Router) { }
 
   ngOnInit() {
+    this.loggedIn();
   }
 }
