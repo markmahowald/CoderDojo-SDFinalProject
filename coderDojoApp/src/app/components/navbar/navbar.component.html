@@ -1,0 +1,10 @@
+  <mat-toolbar color="primary">
+      <mat-toolbar-row>
+        <!--  <span>HOME</span> -->
+         <a [routerLink]="['/home']"><img  class="imglogo" src="assets/coderdojowhite1.png" /></a>
+         <span class="spacer"></span>
+         <a class="nav-link-mat" [routerLink]="['/schedule']">Meetings</a>
+
+        <span><app-login></app-login></span>
+      </mat-toolbar-row>
+   </mat-toolbar>

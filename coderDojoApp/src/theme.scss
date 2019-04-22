@@ -1,0 +1,43 @@
+@import '~@angular/material/theming';
+@include mat-core();
+$my-app-primary: mat-palette($mat-teal, 500);
+$my-app-accent: mat-palette($mat-indigo, 700, 300, 900);
+$my-app-warn:    mat-palette($mat-deep-orange);
+$my-app-theme: mat-light-theme($my-app-primary, $my-app-accent, $my-app-warn);
+
+
+.primaryColorBG {
+  background-color: mat-color($my-app-primary);
+}
+.accentColorBG {
+  background-color: mat-color($my-app-accent);
+}
+.warnColorBG {
+  background-color: mat-color($my-app-warn);
+}
+.mat-secondary {
+  background: #5d6576;
+  color: white;
+}
+.mat-secondary.mat-raised-button{
+  background: #5d6576;
+  color: white;
+}
+.remove-btn-border{
+  border:none;
+  background:none;
+ }
+ button.mat-raised-button{
+  border-radius: 4px;
+  padding-right: 8px;
+  padding-left: 8px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+ }
+@include angular-material-theme($my-app-theme);
+.alternate-theme {
+  $alternate-primary: mat-palette($mat-light-blue);
+  $alternate-accent:  mat-palette($mat-yellow, 400);
+  $alternate-theme: mat-light-theme($alternate-primary, $alternate-accent);
+  @include angular-material-theme($alternate-theme);
+}

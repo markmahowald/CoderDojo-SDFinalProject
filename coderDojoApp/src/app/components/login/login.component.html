@@ -1,0 +1,74 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div *ngIf="!loggedIn()" ngbDropdown class="d-inline-block" autoClose="outside">
+        <button class="btn " id="loginForm" ngbDropdownToggle>{{buttonText}}</button>
+        <div id="loginDropdown" ngbDropdownMenu aria-labelledby="loginForm">
+          <form #LoginForm="ngForm" class="px-4 py-3">
+            <div *ngIf="!registering" >
+              <div class="form-group">
+                <label for="dropdownFormUsername">Username</label>
+                <input type="username" class="form-control" id="dropdownFormUsername" name="username" ngModel>
+              </div>
+              <div class="form-group">
+                <label for="dropdownFormPassword">Password</label>
+                <input type="password" class="form-control" id="dropdownFormPassword" name="password" ngModel>
+              </div>
+              <button class="btn btn-primary" (click)="login(LoginForm)">Sign in</button>
+              <div class="dropdown-divider"></div>
+              <button ngbDropdownItem (click)="registering = true; buttonText = 'Register'">New around here? Sign up</button>
+              <!-- <button ngbDropdownItem>Forgot password?</button> -->
+            </div>
+
+            <div *ngIf="registering">
+                <div class="form-group">
+                    <label for="dropdownFormUsername">Username</label>
+                    <input type="username" class="form-control" id="dropdownFormUsername" name="username" ngModel>
+                  </div>
+                  <div class="form-group">
+                    <label for="dropdownFormPassword">Password</label>
+                    <input type="password" class="form-control" id="dropdownFormPassword" name="password" ngModel>
+                  </div>
+                  <div class="form-group">
+                    <label for="dropdownFormEmail">Email</label>
+                    <input type="email" class="form-control" id="dropdownFormEmail" name="email" ngModel>
+                  </div>
+                  <div class="form-group">
+                    <label for="dropdownFormPhone">Phone Number</label>
+                    <input type="text" class="form-control" id="dropdownFormPhone" name="phoneNumber" ngModel>
+                  </div>
+                  <div class="form-group">
+
+                      <label>Select location</label>
+                      <select disableOptionCentering (selectionChange)="selectUserLocation($event)" [(ngModel)]="selectedLocationValue" name="locationName">
+                        <option *ngFor="let location of locations" [value]="location.id">
+                          {{location.name}}
+                        </option>
+                      </select>
+
+                    </div>
+                  <div class="dropdown-divider"></div>
+                  <button  class="primaryColorBG saveBtn btn mr-5"  (click)="register(LoginForm);">Save/Register</button>
+                  <button  class="btn btn-secondary cancelBtn " (click)="registering = false; buttonText = 'Login'">Cancel</button>
+            </div>
+          </form>
+        </div>
+        </div>
+        <div *ngIf="loggedIn()">
+            <div ngbDropdown class="d-inline-block" autoClose="outside">
+                <button class="btn " id="profileButton" ngbDropdownToggle>{{buttonText}}</button>
+                <div id="profileDropdown" ngbDropdownMenu aria-labelledby="profileButton">
+                    <div *ngIf="admin" >
+                      <button ngbDropdownItem class="btn  btn-lg" [routerLink]="'admin'">Administration</button>
+                      <hr>
+                    </div>
+                    <button  ngbDropdownItem class="btn  btn-lg" [routerLink]="'user/' + getUsername()">Dashboard</button>
+                    <div class="dropdown-divider"></div>
+                    <a ngbDropdownItem [routerLink]="'user/' + getUsername() + '/profile'" routerLinkActive="router-link-active" >Edit Profile</a>
+                    <button ngbDropdownItem (click)="logout()">Logout</button>
+                    <!-- <button ngbDropdownItem>Forgot password?</button> -->
+                </div>
+        </div>
+      </div>
+    </div>
+  </div>
